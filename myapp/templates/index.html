@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Script Integration</title>
+</head>
+<body>
+
+<form id="myForm">
+    <input type="text" id="inputData" name="input_data">
+    <button type="button" onclick="runScript()">Run Script</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+    function runScript() {
+        var inputData = document.getElementById('inputData').value;
+
+        // Ajax ogtagorcir request@ Djangoi endpointin uxarkelu hamar
+        fetch('{% url "run_script" %}', {
+            method: 'POST',
+            body: new URLSearchParams({ 'input_data': inputData }),
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Display the result on the web page
+            document.getElementById('result').innerText = data.result;
+        });
+    }
+</script>
+
+</body>
+</html>
